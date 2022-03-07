@@ -21,11 +21,11 @@ export default () => {
 
       //Pegando o Featured
 
-      let originals = list.filter(i=>i.slug === 'originals');
+      let originals = list.filter(i => i.slug === 'originals');
       let randomChosem = Math.floor(Math.random() * (originals[0].items.results.length - 1))
       let chosen = originals[0].items.results[randomChosem];
       let chosenInfo = await Tmdb.getMovieInfo(chosen.id, 'tv');
-      setFeaturedData(chosenInfo); 
+      setFeaturedData(chosenInfo);
 
 
     }
@@ -33,18 +33,18 @@ export default () => {
     loadAll();
   }, [])
 
-  useEffect(() =>{
-    const scrollListener = () =>{
-      if(window.scrollY > 600){
+  useEffect(() => {
+    const scrollListener = () => {
+      if (window.scrollY > 200) {
         setBlackHeader(true);
-      }else{
+      } else {
         setBlackHeader(false);
       }
     }
 
     window.addEventListener('scroll', scrollListener);
 
-    return() =>{
+    return () => {
       window.removeEventListener('scroll', scrollListener);
     }
 
@@ -60,17 +60,24 @@ export default () => {
       }
 
       <section className="lists">
-        {movieList.map((item, key)=>(
+        {movieList.map((item, key) => (
           <div>
-            <MovieRow key={key} title={item.title} items={item.items}/>
+            <MovieRow key={key} title={item.title} items={item.items} />
           </div>
         ))}
       </section>
 
       <footer>
-        Direitos de imagem para Netflix<br/>
+        Iniciativa da aplicação pela B7Web<br />
+        Direitos de imagem para Netflix<br />
         Dados pegos do site Themoviedb.org
       </footer>
+
+      {movieList.length <= 0 &&
+        <div className='loading'>
+          <img src='https://www.rchandru.com/images/portfolio/loading.gif' alt="Carregando" />
+        </div>
+      }
     </div>
   )
 }
